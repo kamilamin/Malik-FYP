@@ -1,0 +1,25 @@
+.header {
+    text-align: center;
+}
+.field_sender {
+    margin-right: 45%;
+}
+.field_receiver {
+    margin-right: 43%;
+}
+.field_owner {
+    margin-right: 66%
+}
+.field_vin_number {
+    margin-right: 68%
+}
+.field_city {
+    margin-right: 82%;
+}
+.form_header {
+    margin-top: 5%;
+}
+.reg_form {
+    margin-left: 30%;
+    margin-right: 30%;
+}

@@ -1,0 +1,25 @@
+.header {
+    text-align: center;
+}
+.field_label {
+    margin-right: 68%;
+}
+.field_label_car {
+    margin-right: 73%;
+}
+.field_label_engine {
+    margin-right: 68%
+}
+.field_label_city {
+    margin-right: 83%
+}
+.field_label_date {
+    margin-right: 64%;
+}
+.form_header {
+    margin-top: 5%;
+}
+.reg_form {
+    margin-left: 30%;
+    margin-right: 30%;
+}

@@ -1,0 +1,39 @@
+.search_header {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.search_current_owner {
+    margin-left: 10%;
+    width: 40%;
+    margin-top: 2%;
+    /* margin-right: 40%; */
+    padding: 3%;
+    border: 1px solid grey;
+}
+
+.search_automobile {
+    margin-left: 10%;
+    width: 40%;
+    margin-top: 2%;
+    /* margin-right: 40%; */
+    padding: 3%;
+    border: 1px solid grey;
+}
+
+.list_automobile {
+    margin-left: 60%;
+    margin-right: 2%;
+    margin-top: -42%;
+    /* padding: 1%; */
+    padding-bottom: 5%;
+    border: 1px solid grey;
+}
+
+.pervious_automobile {
+    margin-left: 60%;
+    margin-right: 2%;
+    margin-top: 20px;
+    padding: 1%;
+    padding-bottom: 5%;
+    border: 1px solid grey;
+}
