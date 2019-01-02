@@ -1,20 +1,46 @@
 import React, { Component } from "react";
+import contract from "../../solidity/Contract_Instance";
+import web3 from "../../solidity/web3";
 import "./style.css";
 
 class Transfer_Assets extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
+  transferOwnership = async ev => {
+    ev.preventDefault();
+    const {
+      sender_address,
+      receiver_address,
+      owner_name,
+      vin_number,
+      city
+    } = this.state;
+
+    const account = (await web3.eth.getAccounts())[1];
+    contract.methods
+      .transferToOwner(
+        sender_address,
+        receiver_address,
+        owner_name,
+        vin_number,
+        city
+      )
+      .send({ gas: 3000000, from: account })
+      .then(res => {
+        alert(`Success: ${vin_number} owenership transfered.`);
+      })
+      .catch(err => {
+        alert(`Error: cannot transfer ownership of ${vin_number} !`);
+      });
+  };
   render() {
     return (
       <div className="header">
         <h4>Automobile Tracing Management System on Blockchain</h4>
         <h5 className="form_header">Transfer Ownership</h5>
         <div>
-          <form className="reg_form">
+          <form className="reg_form" onSubmit={this.transferOwnership}>
             <div className="form-group">
-              <label className="field_sender" for="sender">
+              <label className="field_sender" htmlFor="sender">
                 Enter Address of Assets Sender
               </label>
               <input
@@ -23,14 +49,15 @@ class Transfer_Assets extends Component {
                 id="sender"
                 aria-describedby="emailHelp"
                 placeholder="Enter Address of Assets Sender"
-                maxLength="20"
-                onChange={sender_address => {
-                  this.setState({ sender_address });
+                maxLength="42"
+                required
+                onChange={e => {
+                  this.setState({ sender_address: e.target.value });
                 }}
               />
             </div>
             <div className="form-group">
-              <label className="field_receiver" for="receiver">
+              <label className="field_receiver" htmlFor="receiver">
                 Enter Address of Assets Receiver
               </label>
               <input
@@ -39,14 +66,15 @@ class Transfer_Assets extends Component {
                 id="receiver"
                 aria-describedby="emailHelp"
                 placeholder="Enter Address of Assets Receiver"
-                maxLength="20"
-                onChange={receiver_address => {
-                  this.setState({ receiver_address });
+                maxLength="42"
+                required
+                onChange={e => {
+                  this.setState({ receiver_address: e.target.value });
                 }}
               />
             </div>
             <div className="form-group">
-              <label className="field_owner" for="owner_name">
+              <label className="field_owner" htmlFor="owner_name">
                 Enter Owner Name
               </label>
               <input
@@ -55,14 +83,15 @@ class Transfer_Assets extends Component {
                 id="owner_name"
                 aria-describedby="emailHelp"
                 placeholder="Enter Engine Type"
-                maxLength="10"
-                onChange={owner_name => {
-                  this.setState({ owner_name });
+                maxLength="20"
+                required
+                onChange={e => {
+                  this.setState({ owner_name: e.target.value });
                 }}
               />
             </div>
             <div className="form-group">
-              <label className="field_vin_number" for="vin_number">
+              <label className="field_vin_number" htmlFor="vin_number">
                 Enter Vin Number
               </label>
               <input
@@ -72,13 +101,14 @@ class Transfer_Assets extends Component {
                 aria-describedby="emailHelp"
                 placeholder="Enter Vin Number"
                 maxLength="10"
-                onChange={vin_number => {
-                  this.setState({ vin_number });
+                required
+                onChange={e => {
+                  this.setState({ vin_number: e.target.value });
                 }}
               />
             </div>
             <div className="form-group">
-              <label className="field_city" for="city">
+              <label className="field_city" htmlFor="city">
                 Enter City
               </label>
               <input
@@ -87,9 +117,10 @@ class Transfer_Assets extends Component {
                 id="city"
                 aria-describedby="emailHelp"
                 placeholder="Enter City"
-                maxLength="10"
-                onChange={city => {
-                  this.setState({ city });
+                maxLength="15"
+                required
+                onChange={e => {
+                  this.setState({ city: e.target.value });
                 }}
               />
             </div>

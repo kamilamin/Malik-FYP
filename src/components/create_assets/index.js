@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./style.css";
 import contract from "../../solidity/Contract_Instance";
-import Web3 from "web3";
+import web3 from "../../solidity/web3";
 
 class AssetsForm extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class AssetsForm extends Component {
   onCreate = async ev => {
     ev && ev.preventDefault();
     const { vin_number, car_color, engine_type, city, date } = this.state;
-    const account = (await Web3.eth.getAccounts())[1];
+    const account = (await web3.eth.getAccounts())[1];
     contract.methods
       .createAsset(vin_number, car_color, engine_type, city, date)
       .send({ from: account, gas: 3000000 })
@@ -38,7 +38,7 @@ class AssetsForm extends Component {
         <div>
           <form className="reg_form" onSubmit={this.onCreate}>
             <div className="form-group">
-              <label className="field_label" for="vin_number">
+              <label className="field_label" htmlFor="vin_number">
                 Enter Vin Number
               </label>
               <input
@@ -54,7 +54,7 @@ class AssetsForm extends Component {
               />
             </div>
             <div className="form-group">
-              <label className="field_label_car" for="color">
+              <label className="field_label_car" htmlFor="color">
                 Enter Car Color
               </label>
               <input
@@ -70,7 +70,7 @@ class AssetsForm extends Component {
               />
             </div>
             <div className="form-group">
-              <label className="field_label_engine" for="Engine_type">
+              <label className="field_label_engine" htmlFor="Engine_type">
                 Enter Engine Type
               </label>
               <input
@@ -86,7 +86,7 @@ class AssetsForm extends Component {
               />
             </div>
             <div className="form-group">
-              <label className="field_label_city" for="city">
+              <label className="field_label_city" htmlFor="city">
                 Enter City
               </label>
               <input
@@ -102,7 +102,7 @@ class AssetsForm extends Component {
               />
             </div>
             <div className="form-group">
-              <label className="field_label_date" for="date">
+              <label className="field_label_date" htmlFor="date">
                 Date of Registration
               </label>
               <input
