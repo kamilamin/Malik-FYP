@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import contract from "../../solidity/Contract_Instance";
-import web3 from "../../solidity/web3";
+import contract from "../../Solidity/Contract_Instance"
+import web3 from "../../Solidity/web3";
 import "./style.css";
 
 class Search extends Component {
