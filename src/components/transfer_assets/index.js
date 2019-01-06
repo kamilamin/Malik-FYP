@@ -5,6 +5,7 @@ import "./style.css";
 
 class Transfer_Assets extends Component {
   state = {};
+
   transferOwnership = async ev => {
     ev.preventDefault();
     const {
@@ -15,11 +16,14 @@ class Transfer_Assets extends Component {
       city
     } = this.state;
 
+    const chksumSender = await web3.utils.toChecksumAddress(sender_address);
+    const chksumReceiver = await web3.utils.toChecksumAddress(receiver_address);
+
     const account = (await web3.eth.getAccounts())[1];
     contract.methods
       .transferToOwner(
-        sender_address,
-        receiver_address,
+        chksumSender,
+        chksumReceiver,
         owner_name,
         vin_number,
         city

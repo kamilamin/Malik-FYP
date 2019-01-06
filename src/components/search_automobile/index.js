@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import contract from "../../Solidity/Contract_Instance";
-import web3 from "../../Solidity/web3";
 import "./style.css";
 
 class Search extends Component {
@@ -17,7 +16,6 @@ class Search extends Component {
       .call()
       .then(res => {
         const { 0: currentOwner, 1: currentLocation } = res;
-        console.log(currentOwner, currentLocation);
         this.setState({
           response_SCOA: (
             <p>
@@ -32,6 +30,7 @@ class Search extends Component {
         alert(`error retreiving asset # ${SCOA}`);
       });
   };
+
   getSpecificCar = ev => {
     ev.preventDefault();
     const { SA } = this.state;
@@ -39,13 +38,12 @@ class Search extends Component {
       .getSpecificCar(SA)
       .call()
       .then(res => {
-        console.log(res);
         const {
           0: lotNumber,
           1: carColor,
-          3: engineType,
-          4: DateOfManufacture,
-          5: origin
+          2: engineType,
+          3: DateOfManufacture,
+          4: origin,
         } = res;
         this.setState({
           response_SA: (
@@ -64,29 +62,61 @@ class Search extends Component {
         alert("Error", error);
       });
   };
-  listOfCarsOwnedByManufacturer = () => {
+
+  listOfCarsOwnedByManufacturer = (ev) => {
+    ev.preventDefault();
     contract.methods
       .getListOfAssetsOwnedByManufacturer()
       .call()
       .then(res => {
         console.log(res);
-        const { list } = res;
         this.setState({
-          response_LAOM: (
-            <p>{list}</p>
-          )
-        })
+          response_LAOM: !res ? "No Automobiles available." : res.map((v, i) => {
+            return (<p key={i}>{`${i + 1}) ${v}`}</p>);
+          })
+        });
       })
       .catch(error => {
+        console.log(error);
         alert("Error", error);
       });
   };
+
+  previousOwner = (ev) => {
+    ev.preventDefault();
+    const { POA } = this.state;
+    contract.methods
+      .getPreviousOwnerOfAsset(POA)
+      .call()
+      .then((res) => {
+        console.log(res);
+
+        const {
+          0: totalOwners,
+          1: previousOwnersName,
+          2: previousOwnersLocation
+        } = res;
+        this.setState({
+          response_POA: <div>
+            <p>Total Owners Uptil Now: {totalOwners}</p>
+            <p>Previous Owner's Name: {previousOwnersName}</p>
+            <p>Previous Owner's Location: {previousOwnersLocation}</p>
+          </div>
+        });
+
+      })
+      .catch((err) => {
+        alert("No previous owner against asset: " + POA);
+      });
+    // response_POA
+  };
+
   render() {
     const {
       response_SCOA,
       response_SA,
       response_LAOM,
-      response_POA
+      response_POA,
     } = this.state;
     return (
       <div>
@@ -137,29 +167,17 @@ class Search extends Component {
           </div>
         </form>
 
-        <form>
+        {/* Get List of all Cars */}
+        <form onSubmit={this.listOfCarsOwnedByManufacturer}>
           <div className="search_current_owner">
             <h5>List Of Automobiles Owned By Manufacturer</h5>
-            <div className="search_assets_owner">
-              <label htmlFor="assets_owner">Enter Vin Number: </label>
-              <input
-                type="number"
-                className="form-control"
-                aria-describedby="emailHelp"
-                placeholder="Enter Vin Number"
-                id="assets_owner"
-                required
-                onChange={e => {
-                  this.setState({ LAOM: e.target.value });
-                }}
-              />
-            </div>
             <div className="result">{response_LAOM}</div>
             <button className="btn btn-primary">Search</button>
           </div>
         </form>
 
-        <form>
+        {/* Get previous owner of the Car */}
+        <form onSubmit={this.previousOwner}>
           <div className="search_current_owner">
             <h5>Previous Owner of Automobile</h5>
             <div className="search_assets_owner">
@@ -181,27 +199,6 @@ class Search extends Component {
           </div>
         </form>
 
-        <form>
-          <div className="search_current_owner">
-            <h5>Current Owner of Automobile</h5>
-            <div className="search_assets_owner">
-              <label htmlFor="assets_owner">Enter Vin Number: </label>
-              <input
-                type="number"
-                className="form-control"
-                aria-describedby="emailHelp"
-                placeholder="Enter Vin Number"
-                id="assets_owner"
-                required
-                onChange={e => {
-                  this.setState({ POA: e.target.value });
-                }}
-              />
-            </div>
-            <div className="result">{response_POA}</div>
-            <button className="btn btn-primary">Search</button>
-          </div>
-        </form>
       </div>
     );
   }
