@@ -108,13 +108,16 @@ class AssetsForm extends Component {
                 Date of Registration
               </label>
               <input
-                type="text"
+                type="date"
                 className="form-control"
                 id="date"
                 value={date}
                 aria-describedby="emailHelp"
                 placeholder="Date of Registration"
                 maxLength="10"
+                onChange={(e) => {
+                  this.setState({ date: e.target.value });
+                }}
               />
             </div>
             <div>
