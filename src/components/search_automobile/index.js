@@ -4,10 +4,6 @@ import "./style.css";
 
 class Search extends Component {
   state = {};
-  // List of Car Owned by Manufacturer
-  componentDidMount() {
-    // this.listOfCarsOwnedByManufacturer();
-  }
   getCurrentOwnerOfAsset = async ev => {
     ev.preventDefault();
     const { SCOA } = this.state;

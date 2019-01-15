@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import contract from "../../Solidity/Contract_Instance";
 import web3 from "../../Solidity/web3";
 import "./style.css";
+import Cities from "../Cities";
 
 class Transfer_Assets extends Component {
   state = {};
@@ -86,7 +87,7 @@ class Transfer_Assets extends Component {
                 className="form-control"
                 id="owner_name"
                 aria-describedby="emailHelp"
-                placeholder="Enter Engine Type"
+                placeholder="Enter Owner Name"
                 maxLength="20"
                 required
                 onChange={e => {
@@ -106,27 +107,26 @@ class Transfer_Assets extends Component {
                 placeholder="Enter Vin Number"
                 maxLength="10"
                 required
+                value={this.state.vin_number}
                 onChange={e => {
-                  this.setState({ vin_number: e.target.value });
+                  this.setState({ vin_number: e.target.value.substr(0, 5) });
                 }}
               />
             </div>
             <div className="form-group">
               <label className="field_city" htmlFor="city">
-                Enter City
+                Select City
               </label>
-              <input
-                type="text"
+              <select name="city" id="city"
                 className="form-control"
-                id="city"
-                aria-describedby="emailHelp"
-                placeholder="Enter City"
-                maxLength="15"
                 required
                 onChange={e => {
                   this.setState({ city: e.target.value });
-                }}
-              />
+                }}>
+                {Cities.map((city, index) => {
+                  return <option className="form-control" key={index} value={city}>{city}</option>
+                })}
+              </select>
             </div>
             <div>
               <button className="btn btn-primary">Transfer Assets</button>

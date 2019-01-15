@@ -1,19 +1,8 @@
 import React, { Component } from "react";
 import "./style.css";
 import contract from "../../Solidity/Contract_Instance";
+import Cities from "../Cities";
 import web3 from "../../Solidity/web3";
-
-// const cities = [
-//   {
-//     city1: "Karachi"
-//   },{
-//     city2: "Lahore"
-//   }, {
-//     city3: "Hyderabad"
-//   }, {
-//     city4: "Islamabad"
-//   }
-// ];
 
 class AssetsForm extends Component {
   constructor(props) {
@@ -26,6 +15,7 @@ class AssetsForm extends Component {
       date: new Date().toDateString()
     };
   }
+
   onCreate = async ev => {
     ev && ev.preventDefault();
     const { vin_number, car_color, engine_type, city, date } = this.state;
@@ -60,8 +50,9 @@ class AssetsForm extends Component {
                 aria-describedby="emailHelp"
                 placeholder="Enter Vin Number"
                 maxLength="5"
+                value={this.state.vin_number}
                 onChange={e => {
-                  this.setState({ vin_number: e.target.value });
+                  this.setState({ vin_number: e.target.value.substr(0, 5) });
                 }}
               />
             </div>
@@ -101,17 +92,16 @@ class AssetsForm extends Component {
               <label className="field_label_city" htmlFor="city">
                 Enter City
               </label>
-              <input
-                type="text"
+              <select name="city" id="city"
+                required
                 className="form-control"
-                id="city"
-                aria-describedby="emailHelp"
-                placeholder="Enter City"
-                maxLength="10"
                 onChange={e => {
                   this.setState({ city: e.target.value });
-                }}
-              />
+                }}>
+                {Cities.map((city, index) => {
+                  return <option className="form-control" key={index} value={city}>{city}</option>
+                })}
+              </select>
             </div>
             <div className="form-group">
               <label className="field_label_date" htmlFor="date">
@@ -123,7 +113,7 @@ class AssetsForm extends Component {
                 id="date"
                 value={date}
                 aria-describedby="emailHelp"
-                placeholder="Enter City"
+                placeholder="Date of Registration"
                 maxLength="10"
                 readOnly
               />
