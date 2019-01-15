@@ -3,9 +3,9 @@ pragma solidity ^0.4.25;
 contract Automobile_Sale {
     // attributes of toyota japan
     string   mName;
+    string   manufacturing_origin;
     address  mAddress;
     uint[]   assetOwnedByManufacture;
-    string   manufacturing_origin;
     
     // attributes of Car
     struct Cars {
@@ -45,8 +45,8 @@ contract Automobile_Sale {
     constructor (string memory _mName, string memory _origin)
     public {
         mName = _mName;
-        mAddress = msg.sender;
         manufacturing_origin = _origin;
+        mAddress = msg.sender;
     }
     function getManufacturerName() public view returns(string memory, string memory) {
         return (mName, manufacturing_origin);
@@ -60,30 +60,31 @@ contract Automobile_Sale {
     (uint _VIN,
     string memory _color,
     string memory _EngineType,
-    string memory _geolocation, 
-    string memory _date) 
+    string memory _geolocation,
+    string memory _date)
     public {
         // Here 10 cars will be created by
         // Toyota japan as an asset
         getSpecificCar(_VIN);
         if(!owner[mAddress].Car[_VIN].initialized) {
+            
             owner[mAddress].Car[_VIN].initialized = true;               // initializes the existence of asset
-            owner[mAddress].Car[_VIN].currentOwner = "Toyota";          // initializes the name of the manufacturer
+            owner[mAddress].Car[_VIN].currentOwner = mName;             // initializes the name of the manufacturer
             owner[mAddress].Car[_VIN].lot_Number = 1;                   // initializes the lot number of car
             owner[mAddress].Car[_VIN].color = _color;                   // initializes the color of car
             owner[mAddress].Car[_VIN].EngineType = _EngineType;         // initializes the engine type to petrol or deisel
             owner[mAddress].Car[_VIN].date_of_manufacturing = _date;    // initializes the manufacturing date
             owner[mAddress].Car[_VIN].geolocation = _geolocation;       // initializes the geolocation of the car
     
-            details[_VIN].currentOwner = "Toyota Japan";
-            details[_VIN].currentOwnerAddress = msg.sender;
-            details[_VIN].currentLocation = "Tokyo, Japan";
+            details[_VIN].currentOwnerAddress = mAddress;
+            details[_VIN].currentOwner = mName;
+            details[_VIN].currentLocation = manufacturing_origin;
     
             assetOwnedByManufacture.push(_VIN);     // pushes to the stack of ownership that manufacturer have
             emit AssetCreate(msg.sender, _VIN, "Asset created!");
         }
-        else{
-            emit RejectCreate(msg.sender, _VIN, "Asset Already exist!");  
+        else {
+            emit RejectCreate(msg.sender, _VIN, "Asset Already exist!");
         }
     }
     

@@ -3,6 +3,18 @@ import "./style.css";
 import contract from "../../Solidity/Contract_Instance";
 import web3 from "../../Solidity/web3";
 
+// const cities = [
+//   {
+//     city1: "Karachi"
+//   },{
+//     city2: "Lahore"
+//   }, {
+//     city3: "Hyderabad"
+//   }, {
+//     city4: "Islamabad"
+//   }
+// ];
+
 class AssetsForm extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +59,7 @@ class AssetsForm extends Component {
                 id="vin_number"
                 aria-describedby="emailHelp"
                 placeholder="Enter Vin Number"
-                maxLength="10"
+                maxLength="5"
                 onChange={e => {
                   this.setState({ vin_number: e.target.value });
                 }}
