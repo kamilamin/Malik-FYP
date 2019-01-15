@@ -108,7 +108,7 @@ class AssetsForm extends Component {
                 Date of Registration
               </label>
               <input
-                type="date"
+                type="text"
                 className="form-control"
                 id="date"
                 value={date}
