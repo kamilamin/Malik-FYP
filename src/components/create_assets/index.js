@@ -115,7 +115,6 @@ class AssetsForm extends Component {
                 aria-describedby="emailHelp"
                 placeholder="Date of Registration"
                 maxLength="10"
-                readOnly
               />
             </div>
             <div>
